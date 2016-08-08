@@ -1,7 +1,7 @@
 const fetch = require('isomorphic-fetch');
 
-const googleApiKey = require('../secret').googleGeocodingApiKey;
-const zipCodeApiKey = require('../secret').zipCodeApiKey;
+const googleApiKey = process.env.gMapsApiKey;
+const zipCodeApiKey = process.env.zipCodeApiKey;
 
 const coordsToZip = (lat, long, res) => {
   // the purpose of this function is to convert a lat and long into a zipcode
