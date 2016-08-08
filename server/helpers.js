@@ -3,6 +3,8 @@ const fetch = require('isomorphic-fetch');
 const googleApiKey = process.env.gMapsApiKey;
 const zipCodeApiKey = process.env.zipCodeApiKey;
 
+console.log('---------------------------', googleApiKey)
+
 const coordsToZip = (lat, long, res) => {
   // the purpose of this function is to convert a lat and long into a zipcode
   let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code&key=${googleApiKey}`;
