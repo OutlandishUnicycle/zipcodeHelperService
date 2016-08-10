@@ -7,6 +7,7 @@ Send in lat and lng coords and receive back an associated zipcode
 ####SAMPLE:
 GET request:
 /api/zip?lng=-91.4821482&lat=44.95309659999999
+
 Response:
 19525
 
@@ -15,6 +16,7 @@ Send in zipcode and receive back the associated lat and lng coords
 ####SAMPLE:
 GET request:
 /api/coords?zip=54729
+
 Response:
 {"lat":44.95309659999999,"lng":-91.4821482}
 
@@ -23,6 +25,7 @@ Send in a zipcode and recieve back an array of zips within 20 miles
 ####SAMPLE:
 GET request:
 /api/nearby?zip=54729
+
 Response:
 [
   "54701",
