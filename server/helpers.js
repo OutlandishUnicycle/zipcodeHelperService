@@ -21,6 +21,8 @@ const coordsToZip = (lat, long, res) => {
   })
 };
 
+zipcodehelper.herokuapp.com/api/coords?zip=54729
+
 const zipToCoords = (zip, res) => {
   // the purpose of this function is to convert a zipcode into the lat and long associated with it's home
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${googleApiKey}`;

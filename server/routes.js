@@ -21,14 +21,12 @@ router.get('/zip', (req, res) => {
 // will return the lat, lng pair associated with a zipcode
 router.get('/coords', (req, res) => {
   let zip = req.query.zip;
-  console.log(zip);
   _h.zipToCoords(zip, res);
 });
 
 // will return the all zipcodes within 25 miles of the given zipcode
 router.get('/nearby', (req, res) => {
   let zip = req.query.zip;
-  console.log(zip);
   _h.nearbyZips(zip, res);
 });
 
