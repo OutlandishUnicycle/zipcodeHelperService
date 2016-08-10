@@ -2,11 +2,13 @@
 
 const express =  require('express');
 const bp = require('body-parser');
+const cors = require('cors');
 
 const routes = require('./routes.js');
 
 const app = express();
 
+app.use(cors());
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
 
