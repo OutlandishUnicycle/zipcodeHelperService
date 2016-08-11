@@ -1,6 +1,4 @@
 const Sequelize = require('sequelize');
-const secrets = require('../../secret.js');
-
 
 let db = new Sequelize(process.env.pgdb, process.env.pguser, process.env.pgpw, {
   dialect: 'postgres',
