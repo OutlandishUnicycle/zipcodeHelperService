@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const _h = require('./helpers');
+const db_h = require('./db/zipcodeController');
 
 router.use((req, res, next) => {
   console.log('time:', Date.now());
@@ -28,6 +29,11 @@ router.get('/coords', (req, res) => {
 router.get('/nearby', (req, res) => {
   let zip = req.query.zip;
   _h.nearbyZips(zip, res);
+});
+
+router.get('/dbNearby', (req, res) => {
+  let zip = req.query.zip;
+  db_h.checkNearbyFromZip(zip, res);
 });
 
 module.exports = router;
