@@ -61,7 +61,8 @@ const zipToState = (zip, res) => {
   fetch(url)
   .then((res) => res.json())
   .then((jsonRes) => {
-    let state = jsonRes.results[0].address_components[3].short_name;
+    let resultsObj = jsonRes.results[0].address_components;
+    let state = resultsObj[resultsObj.length-2].short_name;
     res.send(state);
   })
   .catch((err) => {
@@ -71,52 +72,9 @@ const zipToState = (zip, res) => {
   })
 };
 
-const compileForDb = (zip, res) => {
-  console.log(zip);
-  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${googleApiKey}`;
-  fetch(url)
-  .then((res) => res.json())
-  .then((jsonRes) => {
-    let lat = jsonRes.results[0].geometry.location.lat;
-    let lng = jsonRes.results[0].geometry.location.lng;
-    console.log('abc', lat, lng);
-    let request = 'https://www.zipcodeapi.com/rest/' + zipCodeApiKey + '/radius.json/' + zip + '/20/miles';
-      fetch(request)
-      .then((response) => response.json())
-      .then((zipcodes) => {
-        let result = zipcodes.zip_codes;
-        let zips = result.reduce((all, zip) => {
-        	all.push(zip.zip_code);
-        	return all;
-        }, []);
-        return zips;
-      })
-      .then((zips) => {
-        console.log('def', zips.length);
-        createNewZip({
-          zipcode: zip,
-          nearby: zips.join(','),
-          lat: lat,
-          lng: lng,
-        }, res);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-      }
-    });
-  })
-  .catch((err) => {
-    if (err) {
-      console.log(err);
-    }
-  })
-}
-
 module.exports = {
   coordsToZip,
   zipToCoords,
   nearbyZips,
-  compileForDb,
   zipToState,
 }
