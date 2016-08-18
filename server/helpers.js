@@ -1,8 +1,8 @@
 const fetch = require('isomorphic-fetch');
-const createNewListing = require('./db/createNewListing.js');
+// const secret = require('../secret.js')
 
-const googleApiKey = process.env.gMapsApiKey;
-const zipCodeApiKey = process.env.zipCodeApiKey;
+const googleApiKey = process.env.gMapsApiKey || secret.googleGeocodingApiKey;
+const zipCodeApiKey = process.env.zipCodeApiKey || secret.zipCodeApiKey;
 
 const coordsToZip = (lat, long, res) => {
   let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code&key=${googleApiKey}`;
@@ -46,7 +46,8 @@ const nearbyZips = (zip, res) => {
       	all.push(zip.zip_code);
       	return all;
       }, []);
-      res.send(zips);
+      console.log(zips);
+      // res.send(zips);
     })
     .catch((err) => {
       if (err) {
@@ -54,14 +55,31 @@ const nearbyZips = (zip, res) => {
     }
   });
 };
+/////////////////////////
+const zipToState = (zip, res) => {
+  const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${googleApiKey}`;
+  fetch(url)
+  .then((res) => res.json())
+  .then((jsonRes) => {
+    let state = jsonRes.results[0].address_components[3].short_name;
+    res.send(state);
+  })
+  .catch((err) => {
+    if (err) {
+      console.log(err);
+    }
+  })
+};
 
 const compileForDb = (zip, res) => {
+  console.log(zip);
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${googleApiKey}`;
   fetch(url)
   .then((res) => res.json())
   .then((jsonRes) => {
     let lat = jsonRes.results[0].geometry.location.lat;
     let lng = jsonRes.results[0].geometry.location.lng;
+    console.log('abc', lat, lng);
     let request = 'https://www.zipcodeapi.com/rest/' + zipCodeApiKey + '/radius.json/' + zip + '/20/miles';
       fetch(request)
       .then((response) => response.json())
@@ -74,9 +92,10 @@ const compileForDb = (zip, res) => {
         return zips;
       })
       .then((zips) => {
-        createNewListing({
+        console.log('def', zips.length);
+        createNewZip({
           zipcode: zip,
-          nearby: zips,
+          nearby: zips.join(','),
           lat: lat,
           lng: lng,
         }, res);
@@ -99,4 +118,5 @@ module.exports = {
   zipToCoords,
   nearbyZips,
   compileForDb,
+  zipToState,
 }

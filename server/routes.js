@@ -1,12 +1,6 @@
 const router = require('express').Router();
 
 const _h = require('./helpers');
-const db_h = require('./db/zipcodeController');
-
-router.use((req, res, next) => {
-  console.log('time:', Date.now());
-  next();
-});
 
 router.get('/', (req, res) => {
   res.send('this is the base of the api route. Nothing really happens here... But welcome!');
@@ -31,9 +25,10 @@ router.get('/nearby', (req, res) => {
   _h.nearbyZips(zip, res);
 });
 
-router.get('/dbNearby', (req, res) => {
+// send in a zipcode and get a state
+router.get('/state', (req, res) => {
   let zip = req.query.zip;
-  db_h.checkNearbyFromZip(zip, res);
-});
+  _h.zipToState(zip, res);
+})
 
 module.exports = router;
