@@ -20,6 +20,14 @@ GET request:
 Response:
 {"lat":44.95309659999999,"lng":-91.4821482}
 
+###/api/state
+Send in a zipcode and recieve back a two character state code
+GET request:
+/api/state?zip=54729
+
+Response:
+"WI"
+
 ###/api/nearby
 Send in a zipcode and recieve back an array of zips within 20 miles
 ####SAMPLE:
