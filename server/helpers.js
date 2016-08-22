@@ -55,7 +55,6 @@ const nearbyZips = (zip, res) => {
     }
   });
 };
-/////////////////////////
 const zipToState = (zip, res) => {
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${zip}&key=${googleApiKey}`;
   fetch(url)
@@ -63,7 +62,7 @@ const zipToState = (zip, res) => {
   .then((jsonRes) => {
     let resultsObj = jsonRes.results[0].address_components;
     let state = resultsObj[resultsObj.length-2].short_name;
-    res.send(state);
+    res.send(JSON.stringify({stateUSA: state}));
   })
   .catch((err) => {
     if (err) {
