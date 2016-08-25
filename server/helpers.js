@@ -6,7 +6,7 @@ const zipCodeApiKey = process.env.zipCodeApiKey || secret.zipCodeApiKey;
 
 
 const coordsToZip = (lat, long, res) => {
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code|administrative_area_level_1&key=AIzaSyAyHMgrwYW8Qh8v01ISAGA0jZMV4vTZ9qQ`;
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code|administrative_area_level_1&key=${googleApiKey}`;
   fetch(url)
   .then((res) => res.json())
   .then((jsonRes) => {
