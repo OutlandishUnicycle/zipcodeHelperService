@@ -4,13 +4,17 @@ const fetch = require('isomorphic-fetch');
 const googleApiKey = process.env.gMapsApiKey || secret.googleGeocodingApiKey;
 const zipCodeApiKey = process.env.zipCodeApiKey || secret.zipCodeApiKey;
 
+
 const coordsToZip = (lat, long, res) => {
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code&key=${googleApiKey}`;
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code|administrative_area_level_1&key=${googleApiKey}`;
   fetch(url)
   .then((res) => res.json())
   .then((jsonRes) => {
     let zip = jsonRes.results[0].address_components[0].long_name;
-    res.send(zip);
+    let state = jsonRes.results[1].address_components[0].short_name;
+    console.log(zip,state);
+
+    res.send(zip+'#'+state);
   })
   .catch((err) => {
     if (err) {
