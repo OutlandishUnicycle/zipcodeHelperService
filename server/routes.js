@@ -31,4 +31,10 @@ router.get('/state', (req, res) => {
   _h.zipToState(zip, res);
 })
 
+router.get('/zip_state', (req, res) => {
+  let lat = req.query.lat;
+  let lng = req.query.lng;
+  _h.coordsToZip_State(lat, lng, res);
+});
+
 module.exports = router;

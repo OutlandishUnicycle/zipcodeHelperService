@@ -6,15 +6,13 @@ const zipCodeApiKey = process.env.zipCodeApiKey || secret.zipCodeApiKey;
 
 
 const coordsToZip = (lat, long, res) => {
-  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code|administrative_area_level_1&key=${googleApiKey}`;
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code&key=${googleApiKey}`;
   fetch(url)
   .then((res) => res.json())
   .then((jsonRes) => {
     let zip = jsonRes.results[0].address_components[0].long_name;
-    let state = jsonRes.results[1].address_components[0].short_name;
-    console.log(zip,state);
 
-    res.send(zip+'#'+state);
+    res.send(zip);
   })
   .catch((err) => {
     if (err) {
@@ -75,9 +73,28 @@ const zipToState = (zip, res) => {
   })
 };
 
+const coordsToZip_State = (lat, long, res) => {
+  let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${long}&result_type=postal_code|administrative_area_level_1&key=${googleApiKey}`;
+  fetch(url)
+  .then((res) => res.json())
+  .then((jsonRes) => {
+    let zip = jsonRes.results[0].address_components[0].long_name;
+    let state = jsonRes.results[1].address_components[0].short_name;
+    
+
+    res.send({zip,state});
+  })
+  .catch((err) => {
+    if (err) {
+      console.log(err);
+    }
+  })
+};
+
 module.exports = {
   coordsToZip,
   zipToCoords,
   nearbyZips,
   zipToState,
+  coordsToZip_State,
 }
